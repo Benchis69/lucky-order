@@ -17,4 +17,7 @@ interface TableDao {
 
     @Query("UPDATE restaurant_tables SET isOccupied = :isOccupied WHERE tableId = :tableId")
     suspend fun updateTableOccupancy(tableId: Long, isOccupied: Boolean)
+
+    @Query("UPDATE restaurant_tables SET sumPriceInCents = :sumPriceInCents WHERE tableId = :tableId")
+    suspend fun updateTableSumPrice(tableId: Long, sumPriceInCents: Int)
 }

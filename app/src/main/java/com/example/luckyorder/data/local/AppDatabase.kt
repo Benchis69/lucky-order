@@ -16,7 +16,7 @@ import com.example.luckyorder.data.local.entity.*
         Order::class,
         OrderItem::class
     ],
-    version = 1,
+    version = 3,
     exportSchema = false
 )
 
@@ -42,7 +42,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "lucky_order_database"
                 )
-                    // .fallbackToDestructiveMigration() // Tipp für die Entwicklung: Kommentiere dies ein, wenn du später Tabellen änderst, damit die App nicht crasht, sondern die DB einfach neu aufbaut.
+                    .fallbackToDestructiveMigration(false)
                     .build()
 
                 INSTANCE = instance

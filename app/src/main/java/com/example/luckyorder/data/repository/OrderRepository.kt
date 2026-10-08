@@ -46,6 +46,10 @@ class OrderRepository(private val orderDao: OrderDao, private val tableDao: Tabl
             isPrintedToKitchen = false
         )
         orderDao.insertOrderItem(orderItem)
+
+        val updateOrder = orderDao.getOpenOrderForTable(tableId).firstOrNull()
+        val totalSum = updateOrder?.items?.sumOf { it.priceAtTimeInCents * it.quantity} ?: 0
+        tableDao.updateTableSumPrice(tableId, totalSum)
     }
 
     suspend fun checkoutOrder(orderId: Long, tableId: Long) {
@@ -54,5 +58,8 @@ class OrderRepository(private val orderDao: OrderDao, private val tableDao: Tabl
 
         // 2. Mark table as free again
         tableDao.updateTableOccupancy(tableId, isOccupied = false)
+
+        // 3. Reset sum to 0
+        tableDao.updateTableSumPrice(tableId, 0)
     }
 }
